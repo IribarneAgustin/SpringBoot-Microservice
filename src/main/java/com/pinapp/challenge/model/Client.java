@@ -1,5 +1,5 @@
 package com.pinapp.challenge.model;
-
+import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,8 +15,9 @@ public class Client {
     private Long id;
     private String name;
     private String lastName;
-    private String birthday;
+    private LocalDate birthday;
     private Integer age;
+    private LocalDate potentialDateOfDeath;
 
     public Client() {
     }
@@ -45,11 +46,11 @@ public class Client {
         this.lastName = lastName;
     }
 
-    public String getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
@@ -60,5 +61,15 @@ public class Client {
     public void setAge(Integer age) {
         this.age = age;
     }
+
+    public LocalDate getPotentialDateOfDeath() {
+        return potentialDateOfDeath;
+    }
+
+    public void setPotentialDateOfDeath(LocalDate potentialDateOfDeath) {
+        this.potentialDateOfDeath = potentialDateOfDeath;
+    }
+
+    
 
 }
