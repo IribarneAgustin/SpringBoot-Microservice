@@ -1,5 +1,9 @@
 package com.pinapp.challenge.model;
 import java.time.LocalDate;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +19,7 @@ public class Client {
     private Long id;
     private String name;
     private String lastName;
+    @NotNull
     private LocalDate birthday;
     private Integer age;
     private LocalDate potentialDateOfDeath;
