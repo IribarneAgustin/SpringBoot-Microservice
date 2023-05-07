@@ -1,17 +1,16 @@
 package com.pinapp.challenge.controller;
 import java.util.*;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import com.pinapp.challenge.Utils.ClientValidator;
 import com.pinapp.challenge.model.Client;
 import com.pinapp.challenge.service.ClientService;
+
+
 
 @RestController
 public class ClientController {
@@ -22,11 +21,6 @@ public class ClientController {
     private ClientValidator clientValidator;
     @Autowired
     private MessageSource messageSource;
-
-    @GetMapping("/")
-    public String home() {
-        return "Hello world";
-    }
     
     @PostMapping("/creacliente")
     public ResponseEntity<String> save(@RequestBody Client client, BindingResult result) {
