@@ -11,10 +11,6 @@ import com.pinapp.challenge.Utils.ClientValidator;
 import com.pinapp.challenge.model.Client;
 import com.pinapp.challenge.service.ClientService;
 
-
-
-
-
 @RestController
 public class ClientController {
 
