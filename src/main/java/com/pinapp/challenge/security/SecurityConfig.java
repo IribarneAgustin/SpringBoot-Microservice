@@ -38,14 +38,15 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        //We configure the endPoints, deactivate the sessions and configure the authentication with JWT
+        //We configure the endPoints, desactivate the sessions and configure the authentication with JWT and allow acces for swagger documentation
         return http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/token").permitAll()
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/token").permitAll().requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(withDefaults()).build();
     }
+    
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() { 
