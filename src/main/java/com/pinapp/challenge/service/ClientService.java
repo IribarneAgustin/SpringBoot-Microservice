@@ -1,5 +1,6 @@
 package com.pinapp.challenge.service;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,42 +12,51 @@ public class ClientService {
 
     @Autowired
     private IClientRepository clientRepository;
-    
-    public Client save(Client client){
-        LocalDate potentialDateOfDeath = calculatePotentialDateOfDeath(client.getBirthday());
-        client.setPotentialDateOfDeath(potentialDateOfDeath);
-        return clientRepository.save(client);        
+    private static final Integer LIFE_EXPECTANCY = 75;
+
+    public Client save(Client client) {
+        client.setPotentialDateOfDeath(calculatePotentialDateOfDeath(client.getBirthday()));
+        client.setAge(calculateAge(client.getBirthday()));
+        return clientRepository.save(client);
     }
 
-    public List<Client> findAll(){
+    public List<Client> findAll() {
         return clientRepository.findAll();
     }
 
-    public HashMap<String,Double> getAverageAgeAndStandardDeviation(){
+    public HashMap<String, Double> getAverageAgeAndStandardDeviation() {
         HashMap<String, Double> response = new HashMap<>();
-        response.put("Average Age", clientRepository.getAverageAge());
-        response.put("Standard Deviation", calculateStandardDeviation());
+        Double averageAge = clientRepository.getAverageAge();
+        Double standardDeviation = calculateStandardDeviation();
+        response.put("Average Age", averageAge != null ? averageAge : 0.0);
+        response.put("Standard Deviation", standardDeviation != null ? standardDeviation : 0.0);
         return response;
     }
 
-    //Life expectancy: 75 years
-    private LocalDate calculatePotentialDateOfDeath(LocalDate birthday){
-        Integer lifeExpectancy = 75;
-        return birthday.plusYears(lifeExpectancy);
-    }   
+    private LocalDate calculatePotentialDateOfDeath(LocalDate birthday) {
+        return birthday.plusYears(LIFE_EXPECTANCY);
+    }
+
+    private Integer calculateAge(LocalDate birthday){
+        LocalDate currentDate = LocalDate.now();
+        return Period.between(birthday, currentDate).getYears();         
+    }
 
     // σ = √(Σ(xi - μ)² / N)
-    private Double calculateStandardDeviation(){
+    private Double calculateStandardDeviation() {
         List<Integer> ageList = clientRepository.getAgeList();
         Double averageAge = clientRepository.getAverageAge();
         Double result = 0.0;
-        //Σ(xi - μ)²
-        for (Integer age : ageList) {
-            result += Math.pow(age - averageAge,2);                    
+
+        if (ageList.size() != 0) {
+            // Σ(xi - μ)²
+            for (Integer age : ageList) {
+                result += Math.pow(age - averageAge, 2);
+            }
+            result = Math.sqrt(result / ageList.size());
         }
-        result = Math.sqrt(result / ageList.size());
-        
+
         return result;
     }
-    
+
 }

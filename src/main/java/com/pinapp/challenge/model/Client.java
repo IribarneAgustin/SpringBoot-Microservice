@@ -16,8 +16,6 @@ public class Client {
     @NotNull
     @Column (nullable = false)
     private LocalDate birthday;
-    @NotNull
-    @Column (nullable = false)
     private Integer age;
     private LocalDate potentialDateOfDeath;
 
