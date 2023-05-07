@@ -1,14 +1,9 @@
 package com.pinapp.challenge.model;
 import java.time.LocalDate;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "client")
@@ -19,8 +14,8 @@ public class Client {
     private Long id;
     private String name;
     private String lastName;
-    @NotNull
     private LocalDate birthday;
+    @NotNull
     private Integer age;
     private LocalDate potentialDateOfDeath;
 
